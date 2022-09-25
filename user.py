@@ -5,7 +5,7 @@ class Users(Base):
     __tablename__ = "users"
     
     name = Column(String, primary_key=True)
-    email = Column(String,)
+    email = Column(String, unique=True)
     password = Column(String)
     
     def __repr__(self):

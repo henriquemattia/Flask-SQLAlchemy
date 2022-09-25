@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token
 from flask_bcrypt import Bcrypt
 
 from database import  session
 from user import Users
+from products import Products, Imagens
 
 app = Flask(__name__)
 CORS(app)
@@ -62,3 +63,11 @@ def login():
         
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
+
+@app.route('/teste')
+def test():
+    # ter = session.query(Products).join(Imagens).filter(Products.img_id==Imagens.id).all()
+    ter = session.query(Products.img_id).join(Imagens, Products.img_id==Imagens.id).filter(Products.categoria=='masculino'), session.commit()
+    print(ter)
+    return 'boa', 200
+    
