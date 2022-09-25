@@ -1,14 +1,15 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import bcrypt
 from flask_jwt_extended import JWTManager,  create_access_token
+from flask_bcrypt import Bcrypt
 
-
-from config.database import  session
-from models.user import Users
+from database import  session
+from user import Users
 
 app = Flask(__name__)
 CORS(app)
+bcrypt = Bcrypt(app)
+
 app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSIU"  
 jwt = JWTManager(app)
 
@@ -20,42 +21,44 @@ def register():
         password = request.json.get('password')
         
         if not name:
-            return 'Nome é Obrigatório'
+            return 'Nome é Obrigatório',400
         if not email:
-            return 'Email é obrigatório'
+            return 'Email é obrigatório', 400
         if not password:
-            return 'Senha é obrigatório'
+            return 'Senha é obrigatório', 400
+        if(session.query(Users).filter(Users.email==f"{email}").all()):
+            return "Email já cadastrado!", 400
         
-        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hashed = bcrypt.generate_password_hash(f"{password}").decode('utf-8')
 
         user = Users(name=name, email=email, password=hashed)
         session.add(user)
         session.commit()
 
         access_token = create_access_token(identity={"email": email})
-        return jsonify({"access_token": access_token})
+        return jsonify({"access_token": access_token}), 200
     except AttributeError:
-        return 'Provide an Email and Password in JSON format in the request body'
+        return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
 
 
 @app.route('/login', methods=['POST'])
 def login():
-        Email = request.json.get('email', None)
+    try:
+        email = request.json.get('email', None)
         password = request.json.get('password', None)
-        
-        if not Email:
-            return 'Email é obrigatório'
+        if not email:
+            return 'Email é obrigatório', 400
         if not password:
-            return 'Missing password'
+            return 'Missing password', 400
         
-        user = session.query(Users).filter(Users.email=={Email})
-        print(user)
+        user = session.query(Users).filter(Users.email==f"{email}").first()
         if not user:
-            return "nao passou"
-
-        if bcrypt.checkpw(password.encode('utf-8'), user.password):
-            access_token = create_access_token(identity={"email": Email})
+            return "nao passou", 404
+        if user and bcrypt.check_password_hash(user.password, password):
+            access_token = create_access_token(identity={"email": email})
             return {"access_token": access_token}, 200
         else:
-            return 'Login invalido', 400
-
+            return 'senha inválida', 404
+        
+    except AttributeError:
+        return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400

@@ -1,7 +1,7 @@
 # from sqlalchemy import create_engine
 # from sqlalchemy.orm import declarative_base, sessionmaker
-from config.database import Base, session
-from models.user import Users
+# from config.database import Base, session
+# from models.user import Users
 # from sqlalchemy import Column, String
 
 
@@ -48,9 +48,9 @@ from models.user import Users
 #SELECT
 
 # data = session.query(Users).all()
-eMail = "henriquef@emial.com"
+# eMail = "henriquef@emial.com"
 
-data = session.query(Users).filter(Users.email == {eMail})
-print(data)
+# data = session.query(Users).filter(Users.email == {eMail})
+# print(data)
 
 # session.close()
