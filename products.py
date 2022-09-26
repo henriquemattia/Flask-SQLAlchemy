@@ -1,5 +1,6 @@
 from database import Base
 from sqlalchemy import Column, String, Integer, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
 
 class Products(Base):
     __tablename__ = "produtos"
@@ -10,13 +11,13 @@ class Products(Base):
     preco = Column(String, nullable=False)
     desc_preco = Column(String, nullable=False)
     rota = Column(String, nullable=False)
-    img_id = Column(Integer, ForeignKey("img_id"))
+    img_id = Column(Integer, ForeignKey("images.id"))
     destaque = Column(Boolean, nullable=False, default=False)
     is_available = Column(Boolean, nullable=False, default=True)
-    # img = relationship("imagens")
+    images = relationship("Imagens")
     
 class Imagens(Base):
-    __tablename__ = "imagens"
+    __tablename__ = "images"
     
     id = Column(Integer, primary_key=True)
     img_main = Column(String, nullable=False)
