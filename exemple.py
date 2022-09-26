@@ -5,6 +5,7 @@
 # from sqlalchemy import Column, String
 
 
+
 # engine = create_engine("postgresql://mysuperuser2:123@localhost/flask", echo=True)
 # conn = engine.connect()
 # Base = declarative_base()
