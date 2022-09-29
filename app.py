@@ -1,3 +1,4 @@
+from email import message
 from flask import Flask, jsonify, request,make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token
@@ -51,16 +52,26 @@ def login():
         if not email:
             return 'Email é obrigatório', 400
         if not password:
-            return 'Missing password', 400
+            return 'Senha é obrigatório', 400
         
         user = session.query(Users).filter(Users.email==f"{email}").first()
         if not user:
-            return "nao passou", 404
+            return make_response(
+                jsonify(
+                    error="true",
+                    message="Email inválido!"
+            )
+            )
         if user and bcrypt.check_password_hash(user.password, password):
             access_token = create_access_token(identity={"email": email})
             return {"token": access_token}, 200
         else:
-            return 'senha inválida', 404
+            return make_response(
+                jsonify(
+                    error="true",
+                    message="Senha inválida"
+            )
+            )
         
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
@@ -79,7 +90,7 @@ def all_prosucts():
                 'id': item[0],
                 'categoria': item[1],
                 'nome': item[2],
-                'preco': item[3],
+                'price': item[3],
                 'desc_preco': item[4],
                 'rota': item[5],
                 'img_main': item[10],
@@ -87,6 +98,7 @@ def all_prosucts():
                 'img_right': item[12],
                 'img_left': item[13],
                 'img_back': item[14]
+                # ADICIONAR ALT para acessibilidade de imagens!
             }
         )
     return make_response(
