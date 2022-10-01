@@ -92,7 +92,7 @@ def all_prosucts():
                 'nome': item[2],
                 'price': item[3],
                 'desc_preco': item[4],
-                'rota': item[5],
+                'rota': item[5], 
                 'img_main': item[10],
                 'img_front': item[11],
                 'img_right': item[12],
