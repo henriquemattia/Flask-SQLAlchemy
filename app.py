@@ -78,6 +78,10 @@ def login():
 
 ##############################################
 # ROTAS DE PRODUTOS
+J = 33
+dados = '('+str(J)+')'
+print(dados)
+
 
 # TODOS OS PRODUTOS
 @app.route('/produtos')

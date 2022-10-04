@@ -10,3 +10,14 @@ class Users(Base):
     
     def __repr__(self):
         return f"Nome={self.name}, Email={self.email}"
+
+    # def json(self):
+    #     return {'email': self.email,
+                
+    #             'nome': self.nome}
+        
+        
+    # @classmethod 
+    # def buscar_todos_usuarios(cls):
+    #     resultado = session.query(UsuarioModel).all() usuarios = [usuario.json() for usuario in resultado] 
+    #     return usuarios 
