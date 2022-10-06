@@ -144,7 +144,7 @@ def destaques():
     #  PRODUTOS MASCULINO
 @app.route('/masculino')
 def rota_masculino():
-    res = session.execute("SELECT * FROM produtos p FULL OUTER JOIN images i ON p.img_id = i.id WHERE categoria = 'masculino' and is_available = 'TRUE'")
+    res = session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE categoria = 'masculino' and is_available = 'TRUE'")
     masc = list()
     for item in res:
         masc.append(
@@ -154,12 +154,13 @@ def rota_masculino():
                 'nome': item[2],
                 'price': item[3],
                 'desc_preco': item[4],
-                'rota': item[5],
-                'img_main': item[10],
-                'img_front': item[11],
-                'img_right': item[12],
-                'img_left': item[13],
-                'img_back': item[14]
+                'SKU': item[5],
+                'rota': item[6],
+                'img_main': item[11],
+                'img_front': item[12],
+                'img_right': item[13],
+                'img_left': item[14],
+                'img_back': item[15]
             }
         )
     return make_response(
