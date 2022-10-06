@@ -15,10 +15,6 @@ app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSI
 jwt = JWTManager(app)
 
 
-@app.route('/')
-def test():
-    return ("Ola mundo")
-
 #ROTA DE REGISTRO
 @app.route('/register', methods=['POST'])
 def register():
