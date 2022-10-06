@@ -1,4 +1,4 @@
-from email import message
+
 from flask import Flask, jsonify, request,make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token
@@ -14,6 +14,10 @@ bcrypt = Bcrypt(app)
 app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSIU"  
 jwt = JWTManager(app)
 
+
+@app.route('/')
+def test():
+    return ("Ola mundo")
 
 #ROTA DE REGISTRO
 @app.route('/register', methods=['POST'])
