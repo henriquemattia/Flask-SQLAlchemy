@@ -61,7 +61,7 @@ def login():
                     error="true",
                     message="Email inválido!"
             )
-            )
+            ), 400
         if user and bcrypt.check_password_hash(user.password, password):
             access_token = create_access_token(identity={"email": email})
             return {"token": access_token}, 200
@@ -78,15 +78,13 @@ def login():
 
 ##############################################
 # ROTAS DE PRODUTOS
-J = 33
-dados = '('+str(J)+')'
-print(dados)
+
 
 
 # TODOS OS PRODUTOS
 @app.route('/produtos')
 def all_prosucts():
-    res =  session.execute("SELECT * FROM produtos p FULL OUTER JOIN images i ON p.img_id = i.id WHERE is_available = 'TRUE'")
+    res =  session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE is_available = 'TRUE'")
     dest = list()
     for item in res:
         dest.append(
@@ -96,12 +94,13 @@ def all_prosucts():
                 'nome': item[2],
                 'price': item[3],
                 'desc_preco': item[4],
-                'rota': item[5], 
-                'img_main': item[10],
-                'img_front': item[11],
-                'img_right': item[12],
-                'img_left': item[13],
-                'img_back': item[14]
+                'SKU': item[5],
+                'rota': item[6],
+                'img_main': item[11],
+                'img_front': item[12],
+                'img_right': item[13],
+                'img_left': item[14],
+                'img_back': item[15]
                 # ADICIONAR ALT para acessibilidade de imagens!
             }
         )
@@ -117,7 +116,7 @@ def all_prosucts():
     
 @app.route('/destaque')
 def destaques():
-    res = session.execute("SELECT * FROM produtos p FULL OUTER JOIN images i ON p.img_id = i.id WHERE destaque = 'TRUE' and is_available = 'TRUE'")
+    res = session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE destaque = 'TRUE' and is_available = 'TRUE'")
     dest = list()
     for item in res:
         dest.append(
@@ -125,14 +124,15 @@ def destaques():
                 'id': item[0],
                 'categoria': item[1],
                 'nome': item[2],
-                'preco': item[3],
+                'price': item[3],
                 'desc_preco': item[4],
-                'rota': item[5],
-                'img_main': item[10],
-                'img_front': item[11],
-                'img_right': item[12],
-                'img_left': item[13],
-                'img_back': item[14]
+                'SKU': item[5],
+                'rota': item[6],
+                'img_main': item[11],
+                'img_front': item[12],
+                'img_right': item[13],
+                'img_left': item[14],
+                'img_back': item[15]
             }
         )
     return make_response(
@@ -152,7 +152,7 @@ def rota_masculino():
                 'id': item[0],
                 'categoria': item[1],
                 'nome': item[2],
-                'preco': item[3],
+                'price': item[3],
                 'desc_preco': item[4],
                 'rota': item[5],
                 'img_main': item[10],
