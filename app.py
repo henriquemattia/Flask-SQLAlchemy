@@ -71,7 +71,7 @@ def login():
                     error="true",
                     message="Senha inválida"
             )
-            )
+            ), 400 #parei aq2ui
         
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
