@@ -1,10 +1,12 @@
 
+from unicodedata import category
 from flask import Flask, jsonify, request,make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token
 from flask_bcrypt import Bcrypt
 
 from database.database import  session
+from models.products import Products
 from models.user import Users
 
 app = Flask(__name__)
@@ -80,28 +82,28 @@ def login():
 # ROTAS DE PRODUTOS
 
 
-
-# TODOS OS PRODUTOS
+#TODOS OS PRODUTOS
 @app.route('/produtos')
-def all_prosucts():
-    res =  session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE is_available = 'TRUE'")
+def all_products():
+    res =  session.execute("SELECT * FROM products WHERE is_available = 'TRUE'")
+    print(res)
     dest = list()
     for item in res:
         dest.append(
             {
                 'id': item[0],
-                'categoria': item[1],
-                'nome': item[2],
+                'categopry': item[1],
+                'name': item[2],
                 'price': item[3],
-                'desc_preco': item[4],
-                'SKU': item[5],
-                'rota': item[6],
-                'img_main': item[11],
-                'img_front': item[12],
-                'img_right': item[13],
-                'img_left': item[14],
-                'img_back': item[15]
-                # ADICIONAR ALT para acessibilidade de imagens!
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
             }
         )
     return make_response(
@@ -112,27 +114,29 @@ def all_prosucts():
 
 
 
+
 # PRODUTOS EM DESTAQUE
     
 @app.route('/destaque')
 def destaques():
-    res = session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE destaque = 'TRUE' and is_available = 'TRUE'")
+    res = session.execute("SELECT * FROM products WHERE highlights = 'TRUE' AND is_available = 'TRUE'")
     dest = list()
     for item in res:
         dest.append(
             {
                 'id': item[0],
-                'categoria': item[1],
-                'nome': item[2],
+                'categopry': item[1],
+                'name': item[2],
                 'price': item[3],
-                'desc_preco': item[4],
-                'SKU': item[5],
-                'rota': item[6],
-                'img_main': item[11],
-                'img_front': item[12],
-                'img_right': item[13],
-                'img_left': item[14],
-                'img_back': item[15]
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
             }
         )
     return make_response(
@@ -144,27 +148,112 @@ def destaques():
     #  PRODUTOS MASCULINO
 @app.route('/masculino')
 def rota_masculino():
-    res = session.execute("SELECT * FROM products p FULL OUTER JOIN images i ON p.img_id = i.id WHERE categoria = 'masculino' and is_available = 'TRUE'")
+    res = session.execute("SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
     masc = list()
     for item in res:
         masc.append(
             {
                 'id': item[0],
-                'categoria': item[1],
-                'nome': item[2],
+                'categopry': item[1],
+                'name': item[2],
                 'price': item[3],
-                'desc_preco': item[4],
-                'SKU': item[5],
-                'rota': item[6],
-                'img_main': item[11],
-                'img_front': item[12],
-                'img_right': item[13],
-                'img_left': item[14],
-                'img_back': item[15]
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
             }
         )
     return make_response(
         jsonify(
             dados=masc
+        )
+    )
+    
+@app.route('/feminino')
+def rota_feminino():
+    res = session.execute("SELECT * FROM products WHERE category = 'feminino' AND is_available = 'TRUE'")
+    fem = list()
+    for item in res:
+        fem.append(
+            {
+                'id': item[0],
+                'categopry': item[1],
+                'name': item[2],
+                'price': item[3],
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
+            }
+        )
+    return make_response(
+        jsonify(
+            dados=fem
+        )
+    )
+    
+@app.route('/calcados')
+def rota_calcados():
+    res = session.execute("SELECT * FROM products WHERE category = 'calcados' AND is_available = 'TRUE'")
+    cal = list()
+    for item in res:
+        cal.append(
+            {
+                'id': item[0],
+                'categopry': item[1],
+                'name': item[2],
+                'price': item[3],
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
+            }
+        )
+    return make_response(
+        jsonify(
+            dados=cal
+        )
+    )
+
+@app.route('/acessorios')
+def rota_acessorios():
+    res = session.execute("SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
+    ace = list()
+    for item in res:
+        ace.append(
+            {
+                'id': item[0],
+                'categopry': item[1],
+                'name': item[2],
+                'price': item[3],
+                'desc_price': item[4],
+                'sku': item[5],
+                'route': item[6],
+                'alt_img': item[7],
+                'img_main': item[8],
+                'img_front': item[9],
+                'img_right': item[10],
+                'img_left': item[11],
+                'img_back': item[12]
+            }
+        )
+    return make_response(
+        jsonify(
+            dados=ace
         )
     )

@@ -18,6 +18,7 @@ for i, DADOS in enumerate(planilha['id']):
     desc_price = planilha.loc[i,"desc_price"]
     sku = planilha.loc[i,"sku"]
     route = planilha.loc[i,"route"]
+    alt_img = planilha.loc[i, "alt_img"]
     img_main = planilha.loc[i,"img_main"]
     img_front = planilha.loc[i,"img_front"]
     img_right = planilha.loc[i,"img_right"]
@@ -31,9 +32,9 @@ for i, DADOS in enumerate(planilha['id']):
                               dbname=os.environ["DB_NAME"],
                               user=os.environ["DB_USER"],
                               password=os.environ["DB_PASS"])
-    comando = "insert into public.testes (id, category, name, price, desc_price, sku, route, img_main, img_front, img_right, img_left, img_back, highlights, is_available) VALUES "
+    comando = "insert into public.products (id, category, name, price, desc_price, sku, route, alt_img, img_main, img_front, img_right, img_left, img_back, highlights, is_available) VALUES "
     
-    dados = f"({id}, '{category}', '{name}', {price}, {desc_price}, '{sku}', '{route}','{img_main}', '{img_front}', '{img_right}', '{img_left}', '{img_back}', {highlights}, {is_available})"
+    dados = f"({id}, '{category}', '{name}', {price}, {desc_price}, '{sku}', '{route}', '{alt_img}', '{img_main}', '{img_front}', '{img_right}', '{img_left}', '{img_back}', {highlights}, {is_available})"
     
     sql = comando + dados
     # print(sql)
@@ -66,6 +67,7 @@ for i, DADOS in enumerate(planilha['id']):
     desc_price = planilha.loc[i,"desc_price"]
     sku = planilha.loc[i,"sku"]
     route = planilha.loc[i,"route"]
+    alt_img = planilha.loc[i, "alt_img"]
     img_main = planilha.loc[i,"img_main"]
     img_front = planilha.loc[i,"img_front"]
     img_right = planilha.loc[i,"img_right"]
@@ -82,6 +84,7 @@ for i, DADOS in enumerate(planilha['id']):
     d_p = f"desc_price = {desc_price}, "
     s = f"sku = '{sku}', "
     r = f"route = '{route}', "
+    a_i = f"alt_img = '{alt_img}', "
     i_m = f"img_main = '{img_main}', "
     i_f = f"img_front = '{img_front}', "
     i_r = f"img_right = '{img_right}', "
@@ -95,9 +98,9 @@ for i, DADOS in enumerate(planilha['id']):
                               dbname=os.environ["DB_NAME"],
                               user=os.environ["DB_USER"],
                               password=os.environ["DB_PASS"])
-    declaração = "UPDATE testes SET "
+    declaração = "UPDATE products SET "
     filtro = f" WHERE id = {id} "
-    unificando = declaração + i + c + n + p + d_p + s + r + i_m + i_f + i_r + i_l + i_b + h + is_a + filtro
+    unificando = declaração + i + c + n + p + d_p + s + r + a_i + i_m + i_f + i_r + i_l + i_b + h + is_a + filtro
     
     # popular dados
     try:
