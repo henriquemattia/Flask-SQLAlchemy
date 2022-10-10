@@ -1,13 +1,12 @@
 
-from unicodedata import category
-from flask import Flask, jsonify, request,make_response
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token
 from flask_bcrypt import Bcrypt
 
 from database.database import  session
-from models.products import Products
 from models.user import Users
+# from models.products import Products
 
 app = Flask(__name__)
 CORS(app)
@@ -92,7 +91,7 @@ def all_products():
         dest.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
@@ -125,7 +124,7 @@ def destaques():
         dest.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
@@ -154,7 +153,7 @@ def rota_masculino():
         masc.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
@@ -174,6 +173,8 @@ def rota_masculino():
         )
     )
     
+    
+    #PRODUTOS FEMININOS
 @app.route('/feminino')
 def rota_feminino():
     res = session.execute("SELECT * FROM products WHERE category = 'feminino' AND is_available = 'TRUE'")
@@ -182,7 +183,7 @@ def rota_feminino():
         fem.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
@@ -202,6 +203,8 @@ def rota_feminino():
         )
     )
     
+    
+    #PRODUTOS CALCADOS
 @app.route('/calcados')
 def rota_calcados():
     res = session.execute("SELECT * FROM products WHERE category = 'calcados' AND is_available = 'TRUE'")
@@ -210,7 +213,7 @@ def rota_calcados():
         cal.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
@@ -230,6 +233,8 @@ def rota_calcados():
         )
     )
 
+
+    #PRODUTOS ACESSORIOS
 @app.route('/acessorios')
 def rota_acessorios():
     res = session.execute("SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
@@ -238,7 +243,7 @@ def rota_acessorios():
         ace.append(
             {
                 'id': item[0],
-                'categopry': item[1],
+                'category': item[1],
                 'name': item[2],
                 'price': item[3],
                 'desc_price': item[4],
