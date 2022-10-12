@@ -5,7 +5,7 @@ from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token, get_current_user, get_jwt_identity, decode_token
 from flask_bcrypt import Bcrypt
 
-from database.database import  session
+from database.database import session
 from models.user import Users
 # from models.products import Products
 
@@ -18,23 +18,23 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400
 jwt = JWTManager(app)
 
 
-#ROTA DE REGISTRO
+# ROTA DE REGISTRO
 @app.route('/register', methods=['POST'])
 def register():
     try:
         name = request.json.get('name')
         email = request.json.get('email')
         password = request.json.get('password')
-        
+
         if not name:
-            return 'Nome é Obrigatório',400
+            return 'Nome é Obrigatório', 400
         if not email:
             return 'Email é obrigatório', 400
         if not password:
             return 'Senha é obrigatório', 400
-        if(session.query(Users).filter(Users.email==f"{email}").all()):
+        if (session.query(Users).filter(Users.email == f"{email}").all()):
             return "Email já cadastrado!", 400
-        
+
         hashed = bcrypt.generate_password_hash(f"{password}").decode('utf-8')
 
         user = Users(name=name, email=email, password=hashed)
@@ -47,6 +47,8 @@ def register():
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
 
 # ROTA DE LOG9IN
+
+
 @app.route('/login', methods=['POST'])
 def login():
     try:
@@ -56,14 +58,14 @@ def login():
             return 'Email é obrigatório', 400
         if not password:
             return 'Senha é obrigatório', 400
-        
-        user = session.query(Users).filter(Users.email==f"{email}").first()
+
+        user = session.query(Users).filter(Users.email == f"{email}").first()
         if not user:
             return make_response(
                 jsonify(
                     error="true",
                     message="Email inválido!"
-            )
+                )
             ), 400
         if user and bcrypt.check_password_hash(user.password, password):
             access_token = create_access_token(identity={"email": email})
@@ -73,23 +75,17 @@ def login():
                 jsonify(
                     error="true",
                     message="Senha inválida"
-            )
-            ), 400 #parei aq2ui
-        
+                )
+            ), 400
+
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
-    
-    
+
     # ROTA DE LOGOUT
+
+
 @app.route('/logout', methods=['POST'])
 def logout():
-#     token = request.json.get('token', None)
-#     novo = decode_token(token)
-#     email = novo['sub']['email']
-#     user = session.query(Users).filter(Users.email==f"{email}").first()
-#     session.delete(user)
-#     session.commit()
-#     print(user)
     try:
         token = request.json.get('token', None)
         if not token:
@@ -97,22 +93,23 @@ def logout():
         decode = decode_token(token)
         email = decode['sub']['email']
         print(email)
-        user = session.query(Users).filter(Users.email==f"{email}").first()
+        user = session.query(Users).filter(Users.email == f"{email}").first()
         session.delete(user)
         session.commit()
         return "Conta deletada com sucesso", 200
-        
+
     except AttributeError:
         return 'Forneça TOKEN no formato JSON no corpo da requisição (request.body)', 400
 
 ##############################################
 # ROTAS DE PRODUTOS
 
+# TODOS OS PRODUTOS
 
-#TODOS OS PRODUTOS
+
 @app.route('/produtos')
 def all_products():
-    res =  session.execute("SELECT * FROM products WHERE is_available = 'TRUE'")
+    res = session.execute("SELECT * FROM products WHERE is_available = 'TRUE'")
     print(res)
     dest = list()
     for item in res:
@@ -139,14 +136,13 @@ def all_products():
         )
     )
 
-
-
-
 # PRODUTOS EM DESTAQUE
-    
+
+
 @app.route('/destaque')
 def destaques():
-    res = session.execute("SELECT * FROM products WHERE highlights = 'TRUE' AND is_available = 'TRUE'")
+    res = session.execute(
+        "SELECT * FROM products WHERE highlights = 'TRUE' AND is_available = 'TRUE'")
     dest = list()
     for item in res:
         dest.append(
@@ -171,11 +167,14 @@ def destaques():
             dados=dest
         )
     )
-    
+
     #  PRODUTOS MASCULINO
+
+
 @app.route('/masculino')
 def rota_masculino():
-    res = session.execute("SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
+    res = session.execute(
+        "SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
     masc = list()
     for item in res:
         masc.append(
@@ -200,12 +199,14 @@ def rota_masculino():
             dados=masc
         )
     )
-    
-    
-    #PRODUTOS FEMININOS
+
+    # PRODUTOS FEMININOS
+
+
 @app.route('/feminino')
 def rota_feminino():
-    res = session.execute("SELECT * FROM products WHERE category = 'feminino' AND is_available = 'TRUE'")
+    res = session.execute(
+        "SELECT * FROM products WHERE category = 'feminino' AND is_available = 'TRUE'")
     fem = list()
     for item in res:
         fem.append(
@@ -230,12 +231,14 @@ def rota_feminino():
             dados=fem
         )
     )
-    
-    
-    #PRODUTOS CALCADOS
+
+    # PRODUTOS CALCADOS
+
+
 @app.route('/calcados')
 def rota_calcados():
-    res = session.execute("SELECT * FROM products WHERE category = 'calcados' AND is_available = 'TRUE'")
+    res = session.execute(
+        "SELECT * FROM products WHERE category = 'calcados' AND is_available = 'TRUE'")
     cal = list()
     for item in res:
         cal.append(
@@ -261,11 +264,13 @@ def rota_calcados():
         )
     )
 
+    # PRODUTOS ACESSORIOS
 
-    #PRODUTOS ACESSORIOS
+
 @app.route('/   ')
 def rota_acessorios():
-    res = session.execute("SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
+    res = session.execute(
+        "SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
     ace = list()
     for item in res:
         ace.append(
