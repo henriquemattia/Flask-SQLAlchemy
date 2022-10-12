@@ -17,7 +17,7 @@ app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSI
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400
 jwt = JWTManager(app)
 
-
+ 
 # ROTA DE REGISTRO
 @app.route('/register', methods=['POST'])
 def register():
@@ -46,7 +46,7 @@ def register():
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
 
-# ROTA DE LOG9IN
+# ROTA DE LOGIN
 
 
 @app.route('/login', methods=['POST'])
@@ -127,7 +127,8 @@ def all_products():
                 'img_front': item[9],
                 'img_right': item[10],
                 'img_left': item[11],
-                'img_back': item[12]
+                'img_back': item[12],
+                'quantity': 1
             }
         )
     return make_response(
