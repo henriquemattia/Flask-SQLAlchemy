@@ -1,7 +1,8 @@
 
+from ast import Delete
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager,  create_access_token
+from flask_jwt_extended import JWTManager,  create_access_token, get_current_user, get_jwt_identity, decode_token
 from flask_bcrypt import Bcrypt
 
 from database.database import  session
@@ -12,7 +13,8 @@ app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
 
-app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSIU"  
+app.config["JWT_SECRET_KEY"] = "asdjkfnçjk0789YJB87*&&*&OSDHFBOASDH%98(566DSFSIU"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400
 jwt = JWTManager(app)
 
 
@@ -76,6 +78,32 @@ def login():
         
     except AttributeError:
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
+    
+    
+    # ROTA DE LOGOUT
+@app.route('/logout', methods=['POST'])
+def logout():
+#     token = request.json.get('token', None)
+#     novo = decode_token(token)
+#     email = novo['sub']['email']
+#     user = session.query(Users).filter(Users.email==f"{email}").first()
+#     session.delete(user)
+#     session.commit()
+#     print(user)
+    try:
+        token = request.json.get('token', None)
+        if not token:
+            return 'token é obrigatório', 400
+        decode = decode_token(token)
+        email = decode['sub']['email']
+        print(email)
+        user = session.query(Users).filter(Users.email==f"{email}").first()
+        session.delete(user)
+        session.commit()
+        return "Conta deletada com sucesso", 200
+        
+    except AttributeError:
+        return 'Forneça TOKEN no formato JSON no corpo da requisição (request.body)', 400
 
 ##############################################
 # ROTAS DE PRODUTOS
@@ -235,7 +263,7 @@ def rota_calcados():
 
 
     #PRODUTOS ACESSORIOS
-@app.route('/acessorios')
+@app.route('/   ')
 def rota_acessorios():
     res = session.execute("SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
     ace = list()

@@ -11,7 +11,8 @@ class Users(Base):
     def __repr__(self):
         return f"Nome={self.name}, Email={self.email}"
 
-    # def json(self):
+    # def delet(self):
+        
     #     return {'email': self.email,
                 
     #             'nome': self.nome}
