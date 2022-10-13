@@ -268,7 +268,7 @@ def rota_calcados():
     # PRODUTOS ACESSORIOS
 
 
-@app.route('/   ')
+@app.route('/acessorios')
 def rota_acessorios():
     res = session.execute(
         "SELECT * FROM products WHERE category = 'acessorios' AND is_available = 'TRUE'")
