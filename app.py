@@ -259,6 +259,7 @@ def rota_calcados():
                 'img_back': item[12]
             }
         )
+        
     return make_response(
         jsonify(
             dados=cal
