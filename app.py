@@ -297,3 +297,5 @@ def rota_acessorios():
             dados=ace
         )
     )
+    
+    
