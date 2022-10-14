@@ -1,5 +1,4 @@
 
-from ast import Delete
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager,  create_access_token, get_current_user, get_jwt_identity, decode_token
@@ -74,7 +73,7 @@ def login():
             return make_response(
                 jsonify(
                     error="true",
-                    message="Senha inválida"
+                    message="Senha inválidaa"
                 )
             ), 400
 
@@ -82,7 +81,6 @@ def login():
         return 'Forneça EMAIL e SENHA no formato JSON no corpo da requisição (request.body)', 400
 
     # ROTA DE LOGOUT
-
 
 @app.route('/logout', methods=['POST'])
 def logout():
