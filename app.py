@@ -12,7 +12,7 @@ import os
 from database.database import session
 from resources.user import UserLogout, Userlogin, User, Users, UserRegister
 # from models.products import Products
-from resources.product import ProductsCategory
+from resources.product import ProductsMasculino
 
 load_dotenv()
 
@@ -46,7 +46,7 @@ api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(Userlogin, "/user/login")
 api.add_resource(UserRegister, "/user/register")
 api.add_resource(UserLogout, "/user/logout")
-api.add_resource(ProductsCategory, "/test")
+api.add_resource(ProductsMasculino, "/masculino")
 
 
 if __name__ == "__main__":

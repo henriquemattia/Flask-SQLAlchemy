@@ -7,14 +7,14 @@ class Products(Resource):
         return products
     
 class Highlights(Resource):
-    def get():
+    def get(self):
         products = ProductsModel.highlights_true()
         return products
     
     
-class ProductsCategory(Resource):
-    def get():
-        products = ProductsModel.products_category()
+class ProductsMasculino(Resource):
+    def get(self):
+        products = ProductsModel.products_masculino(self)
         return products
     
 
