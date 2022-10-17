@@ -74,7 +74,9 @@ class ProductsModel(Base):
 
     def products_masculino(self):
         # result = session.query(ProductsModel).filter_by(category=category).filter(self.is_available == True).all()
-        result = session.execute("SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
+        result = session.execute(
+            "SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
+        print(result)
         products = [product.json() for product in result]
         return products
 
