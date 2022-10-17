@@ -23,6 +23,7 @@ bcrypt = Bcrypt(app)
 app.config["JWT_SECRET_KEY"] = os.environ["SUPER_SECRET_KEY"]
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 86400
 # app.config["JWT_BLACKLIST_ENABLE"] = True
+
 jwt = JWTManager(app)
 
 
