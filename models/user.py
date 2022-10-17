@@ -1,15 +1,15 @@
-# from database.database import Base, engine, session
-# from sqlalchemy import Column, String, Integer, ForeignKey
-# # from models.products import ProductsModel
+from database.database import Base, engine, session
+from sqlalchemy import Column, String, Integer, ForeignKey
+# from models.products import ProductsModel
 
 
-# class UsersModel(Base):
-#     __tablename__ = "users"
+class UsersModel(Base):
+    __tablename__ = "users"
 
-#     user_id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     email = Column(String, unique=True)
-#     password = Column(String)
+    user_id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String, unique=True)
+    password = Column(String)
 # #     # product_id = Column(Integer, ForeignKey("ProductsModel",backref="users")) Froma correta
 # #     # product_id = Column(Integer, ForeignKey(ProductsModel.id)) Forçando / nao usar se nao for necessário
 
