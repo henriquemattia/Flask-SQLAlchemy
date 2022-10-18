@@ -48,8 +48,8 @@ api.add_resource(UserRegister, "/user/register")
 api.add_resource(UserLogout, "/user/logout")
 api.add_resource(ProductsMasculino, "/masculino")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
 
 # ROTA DE REGISTRO
 # @app.route('/register', methods=['POST'])
