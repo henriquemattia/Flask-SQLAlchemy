@@ -52,38 +52,57 @@ class ProductsModel(Base):
             'img_back': self.img_back
         }
 
-    @classmethod
-    def find_products(cls):
-        result = session.query(ProductsModel).all()
-        products = [product.json() for product in result]
-        return products
 
     @classmethod
     def product_id(cls):
         product = session.query(ProductsModel).first()
-
+        
         if product:
             return product
         return None
 
+    # TODOS OS PRODUTOS
     @classmethod
-    def highlights_true(self):
-        result = session.query(ProductsModel).filter_by(highlights='TRUE', is_available='TRUE').all()
-                
+    def products_total(cls):
+        result = session.query(ProductsModel).filter_by(is_available='TRUE').all()        
+        products = [product.json() for product in result]
+        return products
+    
+    #  PRODUTOS DESTAQUE
+    @classmethod
+    def products_highlights(cls):
+        result = session.query(ProductsModel).filter_by(highlights='TRUE', is_available='TRUE').all()        
         products = [product.json() for product in result]
         return products
 
+    # PRODUTOS MASCULINOS
     @classmethod
     def products_masculino(cls):
-        result = session.query(ProductsModel).filter_by(category='masculino', is_available='TRUE').all()
-                
+        result = session.query(ProductsModel).filter_by(category='masculino', is_available='TRUE').all()        
         products = [product.json() for product in result]
         
         return products
+    
+    # PEODUTOS FEMININO
     @classmethod
     def products_feminino(cls):
-        result = session.query(ProductsModel).filter_by(category='masculino', is_available='TRUE').all()
-                
+        result = session.query(ProductsModel).filter_by(category='feminino', is_available='TRUE').all()        
+        products = [product.json() for product in result]
+        
+        return products
+    
+    # PRODUTOS CALÇADOS
+    @classmethod
+    def products_calcados(cls):
+        result = session.query(ProductsModel).filter_by(category='calcados', is_available='TRUE').all()               
+        products = [product.json() for product in result]
+        
+        return products
+    
+    # PRODUTOS ACESSÓRIOS
+    @classmethod
+    def products_acessorios(cls):
+        result = session.query(ProductsModel).filter_by(category='acessorios', is_available='TRUE').all()    
         products = [product.json() for product in result]
         
         return products

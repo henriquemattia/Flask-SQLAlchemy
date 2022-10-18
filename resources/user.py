@@ -104,3 +104,19 @@ class UserLogout(Resource):
         jwt_id = get_jwt()["jti"]
         BLACKLIST.add(jwt_id)
         return {"message": "Log-out successfully"}, 200
+    
+    # def post(self):
+    #     try:
+    #         token = request.json.get('token', None)
+    #         if not token:
+    #             return 'token é obrigatório', 400
+    #         decode = decode_token(token)
+    #         email = decode['sub']['email']
+    #         print(email, "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+    #         user = session.query(UsersModel).filter(UsersModel.email == f"{email}").first()
+    #         session.delete(user)
+    #         session.commit()
+    #         return "Conta deletada com sucesso", 200
+
+    #     except AttributeError:
+    #         return 'Forneça TOKEN no formato JSON no corpo da requisição (request.body)', 400
