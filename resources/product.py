@@ -8,7 +8,7 @@ class Products(Resource):
         return products
 
 
-class Highlights(Resource):
+class ProductsHighlights(Resource):
     def get(self):
         products = ProductsModel.highlights_true()
         return products

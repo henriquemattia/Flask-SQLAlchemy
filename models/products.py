@@ -40,8 +40,8 @@ class ProductsModel(Base):
             'id': self.id,
             'category': self.category,
             'name': self.name,
-            'price': self.price,
-            'desc_price': self.desc_price,
+            'price': f'{self.price}',
+            'desc_price': f'{self.desc_price}',
             'sku': self.sku,
             'route': self.route,
             'alt_img': self.alt_img,
@@ -66,19 +66,26 @@ class ProductsModel(Base):
             return product
         return None
 
+    @classmethod
     def highlights_true(self):
-        result = session.execute(
-            "SELECT * FROM products WHERE highlights = 'TRUE' AND is_available = 'TRUE'")
+        result = session.query(ProductsModel).filter_by(highlights='TRUE', is_available='TRUE').all()
+                
         products = [product.json() for product in result]
         return products
 
     @classmethod
     def products_masculino(cls):
         result = session.query(ProductsModel).filter_by(category='masculino', is_available='TRUE').all()
-        # result = session.execute("SELECT * FROM products WHERE category = 'masculino' AND is_available = 'TRUE'")
-        # print(result, "ioiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        
+                
         products = [product.json() for product in result]
+        
+        return products
+    @classmethod
+    def products_feminino(cls):
+        result = session.query(ProductsModel).filter_by(category='masculino', is_available='TRUE').all()
+                
+        products = [product.json() for product in result]
+        
         return products
 
 

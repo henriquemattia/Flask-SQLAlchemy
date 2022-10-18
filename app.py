@@ -11,7 +11,7 @@ from flask_restful import Api
 
 from models.user import UsersModel
 from resources.user import UserLogout, Userlogin, User, Users, UserRegister
-from resources.product import ProductsMasculino
+from resources.product import ProductsMasculino, ProductsHighlights
 
 load_dotenv()
 
@@ -41,12 +41,14 @@ def token_invalid(jwt_header, jwt_payload):
 def hello():
     return "<h1>hello meu world</h1>"
 
-api.add_resource(Users, "/users")
 api.add_resource(User, "/user/<int:user_id>")
-api.add_resource(Userlogin, "/user/login")
-api.add_resource(UserRegister, "/user/register")
-api.add_resource(UserLogout, "/user/logout")
+api.add_resource(Users, "/users")
+api.add_resource(Userlogin, "/login")
+api.add_resource(UserRegister, "/register")
+api.add_resource(UserLogout, "/logout")
+
 api.add_resource(ProductsMasculino, "/masculino")
+api.add_resource(ProductsHighlights, "/destaque")
 
 # if __name__ == "__main__":
 #     app.run(debug=True)
