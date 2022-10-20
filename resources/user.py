@@ -119,4 +119,4 @@ class UserLogout(Resource):
     #         return "Conta deletada com sucesso", 200
 
     #     except AttributeError:
-    #         return 'Forneça TOKEN no formato JSON no corpo da requisição (request.body)', 400
+    #         return 'Forneça TOKEN no formato JSON no corpo da requisição (request.body)'  
