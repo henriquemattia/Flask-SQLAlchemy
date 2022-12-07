@@ -52,5 +52,5 @@ api.add_resource(ProductsFeminino, "/feminino")
 api.add_resource(ProductsCalcado, "/calcados")
 api.add_resource(ProductsAcessorios, "/acessorios")
 
-# if __name__ == "__main__":
-#     app.run(debug=True, port=5000,)
+if __name__ == "__main__":
+    app.run(debug=True, port=5000,)
